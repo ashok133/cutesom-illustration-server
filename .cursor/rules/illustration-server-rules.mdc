@@ -1,0 +1,141 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Cutesum Illustration Server
+
+> Serverless function for generating and managing storybook illustrations
+
+---
+
+## Python Code Style
+
+> Follow PEP 8 style guide for Python code
+
+- Use 4 spaces for indentation  
+- Maximum line length of 88 characters (Black formatter standard)  
+- Use type hints for all function parameters and return values  
+- Use docstrings for all functions and classes  
+- Use snake_case for variable and function names  
+- Use PascalCase for class names  
+- Use UPPER_CASE for constants  
+
+---
+
+## FastAPI Best Practices
+
+> Guidelines for FastAPI implementation
+
+- Use Pydantic models for request/response validation  
+- Implement proper error handling with custom exceptions  
+- Use dependency injection for services  
+- Implement proper logging with structured format  
+- Use async/await for all I/O operations  
+- Implement proper rate limiting  
+- Use proper status codes for responses  
+- Implement proper CORS configuration  
+
+---
+
+## Async Code Guidelines
+
+> Best practices for async code
+
+- Use asyncio for concurrent operations  
+- Implement proper error handling in async functions  
+- Use asyncio.gather for parallel operations  
+- Implement proper timeout handling  
+- Use proper async context managers  
+- Implement proper cancellation handling  
+
+---
+
+## Security Guidelines
+
+> Security best practices
+
+- Never expose API keys in code  
+- Implement proper input validation  
+- Implement proper rate limiting  
+- Use environment variables for sensitive data  
+- Implement proper error handling to avoid information leakage  
+- Use proper authentication and authorization  
+
+---
+
+## Error Handling
+
+> Guidelines for error handling
+
+- Use custom exception classes  
+- Implement proper error logging  
+- Return proper error responses  
+- Handle all possible error cases  
+- Implement proper retry logic  
+- Use proper error status codes  
+
+---
+
+## Testing Guidelines
+
+> Guidelines for testing
+
+- Write unit tests for all functions  
+- Write integration tests for API endpoints  
+- Use pytest for testing  
+- Implement proper test fixtures  
+- Use proper mocking for external services  
+- Implement proper test coverage  
+
+---
+
+## Documentation Guidelines
+
+> Guidelines for documentation
+
+- Use proper docstrings for all functions  
+- Document all API endpoints  
+- Document all configuration options  
+- Document all environment variables  
+- Document all dependencies  
+- Keep README up to date  
+
+---
+
+## Code Organization
+
+> Guidelines for code organization
+
+- Use proper module structure  
+- Implement proper separation of concerns  
+- Use proper dependency injection  
+- Implement proper configuration management  
+- Use proper logging configuration  
+- Implement proper error handling  
+
+---
+
+## Performance Guidelines
+
+> Guidelines for performance
+
+- Implement proper caching  
+- Use proper async operations  
+- Implement proper connection pooling  
+- Use proper batch operations  
+- Implement proper timeout handling  
+- Use proper resource management  
+
+---
+
+## Deployment Guidelines
+
+> Guidelines for deployment
+
+- Use proper environment variables  
+- Implement proper logging  
+- Use proper monitoring  
+- Implement proper error tracking  
+- Use proper deployment configuration  
+- Implement proper backup strategy  

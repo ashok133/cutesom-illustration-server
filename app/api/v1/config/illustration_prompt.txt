@@ -1,0 +1,60 @@
+Create a watercolor-style children's book illustration (1792x1024 landscape) for the following stanza from a poem about [baby_name]. This is image [image_number] of 8 in the storybook:
+
+[STANZA_TEXT]
+
+Style Requirements:
+- Watercolor technique with soft, warm color palette (creams, pastels, gentle earth tones)
+- Hand-drawn, storybook aesthetic with visible brush strokes and texture
+- Soft, diffused lighting that creates a dreamy atmosphere
+- Gentle, rounded edges and organic shapes
+- Subtle paper texture visible in the background
+- Whimsical details like floating leaves, sparkles, or soft shadows to add depth
+
+Character Requirements:
+- If [baby_name] appears: [baby_photo_description] - maintain exact skin tone, hair color/texture, and any distinctive features
+- If [parent1_name] appears: [parent1_photo_description] - maintain exact skin tone, hair color/texture, and any distinctive features
+- If [parent2_name] appears: [parent2_photo_description] - maintain exact skin tone, hair color/texture, and any distinctive features
+- If [family_member_name] appears: [family_member_photo_description] - maintain exact skin tone, hair color/texture, and any distinctive features
+
+Composition Requirements:
+- This is a two-page spread (left and right pages)
+- For odd-numbered images (1,3,5,7):
+  * Place the main illustration on the right page
+  * Leave the left page as negative space for text
+  * Ensure the illustration flows naturally from left to right
+  * Add subtle decorative elements in the negative space that complement the scene
+- For even-numbered images (2,4,6,8):
+  * Place the main illustration on the left page
+  * Leave the right page as negative space for text
+  * Ensure the illustration flows naturally from right to left
+  * Add subtle decorative elements in the negative space that complement the scene
+- Center the main action or emotion of the stanza in the illustrated page
+- Use the rule of thirds for balanced composition within the illustrated page
+- Create depth through layered elements (foreground, midground, background)
+- Ensure all elements are soft-edged and blend harmoniously
+- Add subtle environmental details that reflect the stanza's mood
+
+Technical Requirements:
+- Resolution: 1792x1024 pixels (full spread)
+- Aspect ratio: 16:9 landscape
+- Format: High-quality digital watercolor
+- Style consistency: Match the established children's book aesthetic
+- Color harmony: Use a cohesive, warm color palette
+- Lighting: Soft, natural lighting with gentle shadows
+
+Negative Space Requirements:
+- Maintain a clear, unobstructed area for text placement
+- For odd-numbered images: Left side (approximately 1/3 of the width)
+- For even-numbered images: Right side (approximately 1/3 of the width)
+- Add subtle, non-distracting decorative elements in the negative space
+- Ensure the negative space feels intentional and balanced
+- Keep the negative space area slightly lighter in tone for better text readability
+
+Additional Notes:
+- Maintain consistent character designs across all illustrations
+- Ensure all text elements will be legible when overlaid
+- Keep the style child-friendly and emotionally warm
+- Avoid any harsh lines or contrasting elements
+- Include subtle textures and patterns that add warmth
+- Ensure the illustration feels like a natural part of a storybook sequence
+- Consider the flow of the story across pages (left-to-right for odd pages, right-to-left for even pages) 
