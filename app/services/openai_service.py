@@ -37,54 +37,6 @@ class OpenAIService:
             logger.error(f"Error initializing OpenAI service: {str(e)}")
             raise
     
-    def _preprocess_image(self, image_data: str, max_size: int = 512, quality: int = 85) -> str:
-        """Preprocess image to reduce size while maintaining quality.
-        
-        Args:
-            image_data: Base64 encoded image data with data URI prefix
-            max_size: Maximum dimension (width or height) in pixels
-            quality: JPEG quality (1-100)
-            
-        Returns:
-            str: Base64 encoded preprocessed image with data URI prefix
-        """
-        try:
-            # Remove data URI prefix if present
-            if image_data.startswith('data:image/jpeg;base64,'):
-                image_data = image_data.replace('data:image/jpeg;base64,', '')
-            
-            # Decode base64 to bytes
-            image_bytes = base64.b64decode(image_data)
-            
-            # Open image from bytes
-            img = Image.open(io.BytesIO(image_bytes))
-            
-            # Convert to RGB if needed
-            if img.mode in ('RGBA', 'P'):
-                img = img.convert('RGB')
-            
-            # Calculate new dimensions while maintaining aspect ratio
-            ratio = min(max_size / max(img.size), 1.0)
-            new_size = tuple(int(dim * ratio) for dim in img.size)
-            
-            # Resize image
-            if ratio < 1.0:
-                img = img.resize(new_size, Image.Resampling.LANCZOS)
-            
-            # Save to bytes with compression
-            output = io.BytesIO()
-            img.save(output, format='JPEG', quality=quality, optimize=True)
-            output.seek(0)
-            
-            # Convert to base64
-            encoded = base64.b64encode(output.read()).decode('utf-8')
-            return f"data:image/jpeg;base64,{encoded}"
-            
-        except Exception as e:
-            logger.error(f"Error preprocessing image: {str(e)}")
-            # Return original image if preprocessing fails
-            return image_data
-    
     async def generate_illustration(
         self,
         prompt: str,
@@ -96,7 +48,7 @@ class OpenAIService:
         
         Args:
             prompt: The prompt for image generation
-            reference_images: List of base64 encoded images with data URI prefix
+            reference_images: List of image URLs (from Cloud Storage)
             size: The size of the image (default: "1536x1024")
             quality: The quality of the image (default: "high")
             
@@ -106,13 +58,7 @@ class OpenAIService:
         try:
             logger.info(f"Generating illustration with size: {size}, quality: {quality}")
             logger.debug(f"Prompt: {prompt}")
-            
-            # Preprocess reference images
-            processed_images = [
-                self._preprocess_image(img_data)
-                for img_data in reference_images
-            ]
-            logger.info(f"Processed {len(processed_images)} reference images")
+            logger.info(f"Using {len(reference_images)} reference images")
             
             response = self.client.responses.create(
                 model="gpt-4.1",
@@ -132,10 +78,10 @@ class OpenAIService:
                             *[
                                 {
                                     "type": "input_image",
-                                    "image_url": base64_img,
+                                    "image_url": image_url,
                                     "detail": "auto"
                                 }
-                                for base64_img in processed_images
+                                for image_url in reference_images
                             ]
                         ]
                     }
