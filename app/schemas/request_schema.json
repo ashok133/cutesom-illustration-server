@@ -1,0 +1,33 @@
+{
+    "poem_text": "The poem text to be illustrated",
+    "baby": {
+        "name": "Baby Name",
+        "age": "2 years",
+        "characteristics": "Loves playing with blocks, enjoys music, very active",
+        "photo": "data:image/jpeg;base64,..."
+    },
+    "parents": {
+        "parent1": {
+            "name": "Parent 1 Name",
+            "relationship": "Mother",
+            "photo": "data:image/jpeg;base64,..."
+        },
+        "parent2": {
+            "name": "Parent 2 Name",
+            "relationship": "Father",
+            "photo": "data:image/jpeg;base64,..."
+        }
+    },
+    "family_members": [
+        {
+            "name": "Family Member 1 Name",
+            "relationship": "Maternal grandmother",
+            "photo": "data:image/jpeg;base64,..."
+        },
+        {
+            "name": "Family Member 2 Name",
+            "relationship": "Paternal grandfather",
+            "photo": "data:image/jpeg;base64,..."
+        }
+    ]
+} 

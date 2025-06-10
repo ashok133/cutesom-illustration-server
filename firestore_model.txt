@@ -1,0 +1,41 @@
+📁 Collections
+├── 📁 users
+│   └── 📄 [google-uid]
+│       ├── uid: string                    // Google UID
+│       ├── email: string                  // Google email
+│       ├── createdAt: timestamp           // First login
+│       └── lastLoginAt: timestamp         // Last login time
+│
+└── 📁 storybooks
+    └── 📄 [auto-generated-id]
+        ├── id: string
+        ├── userId: string                 // Google UID of the creator
+        ├── createdAt: timestamp
+        ├── status: enum ('pending' | 'completed' | 'failed')
+        ├── error?: string                 // Error message if failed
+        │
+        ├── 📁 request
+        │   ├── poemText: string
+        │   ├── baby: {
+        │   │   name: string,
+        │   │   age: string,
+        │   │   photo: string              // Base64 image
+        │   │}
+        │   └── parents: {
+        │       parent1: {
+        │           name: string,
+        │           photo: string          // Base64 image
+        │       },
+        │       parent2: {
+        │           name: string,
+        │           photo: string          // Base64 image
+        │       }
+        │   }
+        │
+        └── 📁 illustrations (array)
+            └── {
+                stanzaNumber: number,
+                imageUrl: string,          // Generated image URL
+                prompt: string,            // Used to generate the image
+                createdAt: timestamp
+            }

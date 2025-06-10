@@ -1,29 +1,33 @@
-Create a watercolor-style children's book illustration (1792x1024 landscape) for the following stanza from a poem about [baby_name]. This is image [image_number] of 8 in the storybook:
+Create a watercolor-style children's book illustration (landscape) for the following stanza from a poem, with the stanza text overlayed in a negative space in the illustration. 
+This is image {stanza_number} of {total_stanzas} in the storybook:
 
-[STANZA_TEXT]
+{stanza_text}
 
 Style Requirements:
 - Watercolor technique with soft, warm color palette (creams, pastels, gentle earth tones)
 - Hand-drawn, storybook aesthetic with visible brush strokes and texture
-- Soft, diffused lighting that creates a dreamy atmosphere
+- The illustration should not have any breaks or creases in the middle, it should just be a single image (like a landscape poster)
+- Soft, diffused lighting that creates a dreamy atmosphere, focussing on different light soft color hues for each stanza (blue, yellow, pink)
 - Gentle, rounded edges and organic shapes
 - Subtle paper texture visible in the background
 - Whimsical details like floating leaves, sparkles, or soft shadows to add depth
 
 Character Requirements:
-- If [baby_name] appears: [baby_photo_description] - maintain exact skin tone, hair color/texture, and any distinctive features
-- If [parent1_name] appears: [parent1_photo_description] - maintain exact skin tone, hair color/texture, and any distinctive features
-- If [parent2_name] appears: [parent2_photo_description] - maintain exact skin tone, hair color/texture, and any distinctive features
-- If [family_member_name] appears: [family_member_photo_description] - maintain exact skin tone, hair color/texture, and any distinctive features
+- For the baby ({baby_name}, age: {baby_age}): {baby_characteristics}. Use the provided photo as reference. 
+- For parents: {parent_requirements}
+- For family members: {family_member_requirements}
+- The characters shouldn't look very old.
+- Characters should match how they look in the photos without promoting cultural appropriation.
 
 Composition Requirements:
 - This is a two-page spread (left and right pages)
-- For odd-numbered images (1,3,5,7):
+- Include parents(s) or other family members in the illustration if they're present in the stanza
+- For odd-numbered images (1,3,5,7, etc):
   * Place the main illustration on the right page
   * Leave the left page as negative space for text
   * Ensure the illustration flows naturally from left to right
   * Add subtle decorative elements in the negative space that complement the scene
-- For even-numbered images (2,4,6,8):
+- For even-numbered images (2,4,6,8, etc):
   * Place the main illustration on the left page
   * Leave the right page as negative space for text
   * Ensure the illustration flows naturally from right to left
@@ -34,14 +38,6 @@ Composition Requirements:
 - Ensure all elements are soft-edged and blend harmoniously
 - Add subtle environmental details that reflect the stanza's mood
 
-Technical Requirements:
-- Resolution: 1792x1024 pixels (full spread)
-- Aspect ratio: 16:9 landscape
-- Format: High-quality digital watercolor
-- Style consistency: Match the established children's book aesthetic
-- Color harmony: Use a cohesive, warm color palette
-- Lighting: Soft, natural lighting with gentle shadows
-
 Negative Space Requirements:
 - Maintain a clear, unobstructed area for text placement
 - For odd-numbered images: Left side (approximately 1/3 of the width)
@@ -50,11 +46,17 @@ Negative Space Requirements:
 - Ensure the negative space feels intentional and balanced
 - Keep the negative space area slightly lighter in tone for better text readability
 
+Text Requirements:
+- The stanza MUST be visible in the final illustration. I REPEAT, having the stanza overlaid on the negative space with NO spelling mistakes is critical.
+- Fits into the negative space neatly with appropriate spacing between lines and even sized font for each line
+- Text block has a font suitable to the overall vibe of the entire poem and illustration
+- Text block has sufficient margin so it doesn't sit too close to the objects or the edges of the book
+- DO NOT make any spelling mistakes in the overlaid text. DO NOT make any spelling mistakes, I repeat.
+- Do this only for the last stanza (stanza 8). Incorporate the name of the baby '{baby_name}', spelled out using elements such as stars, petals, sea shells etc, relevant to the poem stanza.
+
 Additional Notes:
-- Maintain consistent character designs across all illustrations
+- Maintain consistent style across all illustrations
 - Ensure all text elements will be legible when overlaid
 - Keep the style child-friendly and emotionally warm
-- Avoid any harsh lines or contrasting elements
-- Include subtle textures and patterns that add warmth
 - Ensure the illustration feels like a natural part of a storybook sequence
 - Consider the flow of the story across pages (left-to-right for odd pages, right-to-left for even pages) 

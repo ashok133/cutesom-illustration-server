@@ -5,10 +5,13 @@ set -e
 
 # Configuration
 PROJECT_ID="cutesom"
-SERVICE_NAME="cutesom-illustration-server"
 REGION="us-central1"
+SERVICE_NAME="cutesom-illustration-server"
+SERVICE_ACCOUNT="cutesom-server@${PROJECT_ID}.iam.gserviceaccount.com"
 REPOSITORY="cutesom-illustration-server-repo"
 IMAGE_NAME="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${SERVICE_NAME}"
+# FIREBASE_STORAGE_BUCKET="gs://cutesom-5eea4.firebasestorage.app"
+FIREBASE_STORAGE_BUCKET="cutesom-storybooks"
 
 # Build the Docker image
 echo "Building Docker image..."
@@ -19,16 +22,21 @@ echo "Pushing image to Artifact Registry..."
 docker push ${IMAGE_NAME}
 
 # Deploy to Cloud Run
-echo "Deploying to Cloud Run..."
+echo "🚀 Deploying to Cloud Run..."
 gcloud run deploy ${SERVICE_NAME} \
   --image ${IMAGE_NAME} \
   --platform managed \
   --region ${REGION} \
   --allow-unauthenticated \
-  --memory 512Mi \
-  --cpu 1 \
-  --min-instances 0 \
+  --timeout 3600 \
+  --min-instances 1 \
   --max-instances 10 \
-  --port 8080
+  --cpu 1 \
+  --memory 2Gi \
+  --set-env-vars="PROJECT_ID=${PROJECT_ID}" \
+  --service-account ${SERVICE_ACCOUNT} \
+  --set-env-vars="FIREBASE_STORAGE_BUCKET=${FIREBASE_STORAGE_BUCKET}" \
+  --set-secrets="OPENAI_API_KEY=openai-api-key:latest"
 
-echo "Deployment completed successfully!" 
+echo "✅ Deployment complete!"
+echo "🌐 Service URL: $(gcloud run services describe ${SERVICE_NAME} --platform managed --region ${REGION} --format 'value(status.url)')" 
