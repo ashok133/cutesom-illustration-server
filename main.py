@@ -112,6 +112,16 @@ def load_prompt_template() -> str:
         logger.error(f"Error loading prompt template: {str(e)}")
         raise
 
+def load_cover_prompt_template() -> str:
+    """Load the cover prompt template from file."""
+    try:
+        prompt_path = os.path.join("config", "storybook_cover_prompt.txt")
+        with open(prompt_path, "r") as f:
+            return f.read()
+    except Exception as e:
+        logger.error(f"Error loading cover prompt template: {str(e)}")
+        raise
+
 def split_poem_into_stanzas(poem_text: str) -> List[str]:
     """Split poem text into stanzas.
     
@@ -261,6 +271,66 @@ async def generate_illustration_for_stanza(
         logger.error(f"Error generating illustration for stanza {stanza_number}: {str(e)}")
         raise
 
+async def generate_storybook_cover(
+    request: IllustrationRequest,
+    total_stanzas: int
+) -> str:
+    """Generate a storybook cover.
+    
+    Args:
+        request: The original illustration request
+        total_stanzas: Total number of stanzas
+        
+    Returns:
+        Base64 encoded generated cover image
+    """
+    try:
+        # Extract data from request
+        baby_name = request.baby.name
+        baby_age = request.baby.age
+        baby_characteristics = request.baby.characteristics or ""
+        baby_photo = request.baby.photo
+        
+        # Load style guidelines and cover prompt template
+        style_guidelines = load_style_guidelines(request.style)
+        cover_prompt_template = load_cover_prompt_template()
+        
+        logger.info(f"Generating storybook cover using style '{request.style}'")
+        
+        # Format the cover prompt
+        cover_prompt = cover_prompt_template.format(
+            baby_name=baby_name,
+            baby_age=baby_age,
+            baby_characteristics=baby_characteristics,
+            style_guidelines=style_guidelines
+        )
+        
+        logger.info(f"Generated cover prompt: {cover_prompt}")
+        
+        # Collect reference images (baby photo only for cover)
+        reference_images = []
+        if baby_photo:
+            reference_images.append(baby_photo)
+        
+        logger.info(f"Using {len(reference_images)} reference images for cover")
+        
+        # Generate the cover with portrait orientation
+        cover_data = await openai_service.generate_illustration(
+            prompt=cover_prompt,
+            reference_images=reference_images,
+            size="1024x1536"  # Portrait orientation for cover
+        )
+        
+        if not cover_data:
+            raise ValueError("Failed to generate storybook cover")
+            
+        logger.info("Successfully generated storybook cover")
+        return cover_data
+        
+    except Exception as e:
+        logger.error(f"Error generating storybook cover: {str(e)}")
+        raise
+
 @app.post("/generate-illustration", response_model=IllustrationResponse)
 async def generate_illustration(
     request: IllustrationRequest,
@@ -339,6 +409,34 @@ async def generate_illustration(
             logger.error(f"Failed to generate any illustrations for storybook {storybook_id}")
             raise ValueError("Failed to generate any illustrations")
         
+        # Generate storybook cover
+        cover_image = None
+        try:
+            logger.info("Generating storybook cover...")
+            cover_image = await generate_storybook_cover(request, total_stanzas)
+            
+            if cover_image:
+                # Upload cover to storage
+                cover_url = await firebase_service.upload_cover_to_storage(
+                    user_id=user_id,
+                    storybook_id=storybook_id,
+                    cover_data=cover_image
+                )
+                
+                # Add cover URL to storybook
+                await firebase_service.add_cover_to_storybook(
+                    storybook_id=storybook_id,
+                    cover_url=cover_url
+                )
+                
+                logger.info("Successfully generated and uploaded storybook cover")
+            else:
+                logger.warning("Failed to generate storybook cover")
+                
+        except Exception as e:
+            logger.error(f"Error generating storybook cover: {str(e)}")
+            # Continue without cover - don't fail the entire request
+        
         # Update storybook status to completed
         await firebase_service.update_storybook_status(
             storybook_id=storybook_id,
@@ -352,11 +450,15 @@ async def generate_illustration(
         else:
             message = f"Successfully generated all {len(image_data)} illustrations"
         
+        if cover_image:
+            message += " and storybook cover"
+        
         logger.info(message)
         return IllustrationResponse(
             status="success",
             message=message,
-            image_data=image_data
+            image_data=image_data,
+            cover_image=cover_image
         )
         
     except ValueError as e:

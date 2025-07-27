@@ -1,0 +1,47 @@
+Create a children's book cover illustration (portrait orientation, 1024x1536px) for a storybook titled "{baby_name}'s Day in Life". The cover should feature the baby prominently and incorporate the selected artistic style.
+
+Style Requirements:
+{style_guidelines}
+
+Cover Design Requirements:
+- Portrait orientation (1024x1536px) suitable for a children's book cover
+- The baby ({baby_name}, age: {baby_age}) should be the central focus of the cover
+- Use the provided baby photo as reference for accurate appearance
+- Include the title "{baby_name}'s Day in Life" in a large, bold, playful font at the top of the cover
+- The title should be clearly readable and prominent, using a font that matches the overall style
+- Position the baby's face prominently in the center or upper center of the cover
+- Add decorative elements that complement the chosen style and create visual interest
+- Ensure the cover feels welcoming and child-friendly
+
+Character Requirements:
+- For the baby ({baby_name}, age: {baby_age}): {baby_characteristics}. Use the provided photo as reference for accurate appearance.
+- The baby should be consistent with how they appear in the storybook illustrations
+- Characters should be representative (not exact copies of the photo, yet easy to identify)
+- Characters should not promote cultural appropriation (don't reinforce racial stereotypes by changing skin tone, hair, clothes)
+
+Title Requirements:
+- The title "{baby_name}'s Day in Life" MUST be prominently displayed at the top of the cover
+- Use a large, bold, playful font that's easy to read
+- The font should complement the overall artistic style of the cover
+- Ensure the title stands out against the background
+- Position the title so it doesn't interfere with the baby's face
+
+Composition Requirements:
+- Create a balanced composition that draws attention to both the title and the baby
+- Use the rule of thirds for balanced layout
+- Ensure the baby's face is clearly visible and engaging
+- Add background elements that complement the storybook theme
+- Create depth through layered elements (foreground, midground, background)
+- Make sure all elements work together harmoniously
+
+Additional Elements:
+- Include subtle decorative elements that reflect the chosen style
+- Add elements that suggest a "day in life" theme (sun, clouds, toys, etc.)
+- Ensure the cover feels cohesive with the storybook's overall style
+- Make the cover inviting and appealing to children and parents
+
+Technical Requirements:
+- Portrait orientation (1024x1536px)
+- High quality, suitable for print
+- Clear, crisp text for the title
+- Consistent with the storybook's artistic style

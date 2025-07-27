@@ -5,6 +5,7 @@ A FastAPI-based service for generating and managing storybook illustrations usin
 ## Features
 
 - Parallel processing of multiple illustrations
+- Storybook cover generation with portrait orientation (1024x1536px)
 - Firebase Storage integration
 - Job management system
 - Error handling and retry logic
@@ -18,6 +19,7 @@ A FastAPI-based service for generating and managing storybook illustrations usin
 .
 ├── config/             # Configuration files (prompts, styles, etc.)
 │   ├── illustration_prompt.txt
+│   ├── storybook_cover_prompt.txt
 │   └── illustration_styles.txt
 ├── schemas/            # Data models and request/response schemas
 ├── services/           # Business logic (OpenAI, Firebase services)
@@ -110,8 +112,12 @@ The `/generate-illustration` endpoint accepts a POST request with the following 
       "photo": "base64_encoded_photo"
     }
   ],
-  "style": "textured-watercolor"
-}
+          "style": "textured-watercolor"
+    }
+    
+    Response includes:
+    - `image_data`: Dictionary of stanza illustrations
+    - `cover_image`: Base64 encoded storybook cover
 ```
 
 ### Available Styles

@@ -351,6 +351,54 @@ class FirebaseService:
             logger.error(f"Error uploading image to storage: {str(e)}")
             raise
 
+    async def upload_cover_to_storage(
+        self,
+        user_id: str,
+        storybook_id: str,
+        cover_data: str
+    ) -> str:
+        """Upload a storybook cover to Cloud Storage.
+        
+        Args:
+            user_id: The user's ID
+            storybook_id: The storybook's ID
+            cover_data: Base64 encoded image data with data URI prefix
+            
+        Returns:
+            str: The public URL of the uploaded cover
+        """
+        try:
+            # Remove data URI prefix if present
+            if cover_data.startswith('data:image/jpeg;base64,'):
+                cover_data = cover_data.replace('data:image/jpeg;base64,', '')
+            
+            # Decode base64 data
+            image_bytes = base64.b64decode(cover_data)
+            
+            # Create storage path
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            storage_path = f"storybooks/{user_id}/covers/{storybook_id}_{timestamp}.jpg"
+            
+            # Create blob and upload
+            blob = self.bucket.blob(storage_path)
+            blob.upload_from_string(
+                image_bytes,
+                content_type='image/jpeg'
+            )
+            
+            # Make the blob publicly accessible
+            blob.make_public()
+            
+            # Get the public URL
+            public_url = blob.public_url
+            logger.info(f"Uploaded cover to {public_url}")
+            
+            return public_url
+            
+        except Exception as e:
+            logger.error(f"Error uploading cover to storage: {str(e)}")
+            raise
+
     async def add_illustration(
         self,
         storybook_id: str,
@@ -405,8 +453,34 @@ class FirebaseService:
             
         except Exception as e:
             logger.error(f"Error adding illustration: {str(e)}")
+                        raise
+
+    async def add_cover_to_storybook(
+        self,
+        storybook_id: str,
+        cover_url: str
+    ) -> None:
+        """Add a cover URL to a storybook.
+        
+        Args:
+            storybook_id: The storybook's ID
+            cover_url: The URL of the cover image
+        """
+        try:
+            storybook_ref = self.db.collection('storybooks').document(storybook_id)
+            
+            # Update the storybook with cover URL
+            storybook_ref.update({
+                'coverUrl': cover_url,
+                'coverCreatedAt': datetime.now()
+            })
+            
+            logger.info(f"Added cover to storybook {storybook_id}")
+            
+        except Exception as e:
+            logger.error(f"Error adding cover to storybook: {str(e)}")
             raise
-    
+
     async def get_storybook(self, storybook_id: str) -> Dict[str, Any]:
         """Get a storybook document."""
         try:

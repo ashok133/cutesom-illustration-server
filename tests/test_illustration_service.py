@@ -118,6 +118,28 @@ def save_generated_images(response_data: Dict[str, Any]):
     except Exception as e:
         logger.error(f"Error saving generated images: {str(e)}")
 
+def save_cover_image(cover_image_data: str):
+    """Save the storybook cover image from the response."""
+    try:
+        # Remove data URI prefix if present
+        if cover_image_data.startswith("data:image/jpeg;base64,"):
+            cover_image_data = cover_image_data.replace("data:image/jpeg;base64,", "")
+        
+        # Decode base64 image
+        try:
+            image_bytes = base64.b64decode(cover_image_data)
+        except Exception as e:
+            logger.error(f"Error decoding base64 for cover: {str(e)}")
+            return
+        
+        # Save image
+        output_path = OUTPUT_DIR / "storybook_cover.jpg"
+        with open(output_path, "wb") as f:
+            f.write(image_bytes)
+        logger.info(f"Saved storybook cover to {output_path}")
+    except Exception as e:
+        logger.error(f"Error saving cover image: {str(e)}")
+
 def test_illustration_generation():
     """Test the illustration generation endpoint."""
     try:
@@ -151,6 +173,10 @@ def test_illustration_generation():
         
         # Save generated images
         save_generated_images(response_data)
+        
+        # Save cover image if present
+        if response_data.get("cover_image"):
+            save_cover_image(response_data["cover_image"])
         
         return response_data
         

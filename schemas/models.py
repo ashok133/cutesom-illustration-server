@@ -41,4 +41,8 @@ class IllustrationResponse(BaseModel):
         None, 
         description="Dictionary mapping stanza numbers to base64 encoded illustrations"
     )
+    cover_image: Optional[str] = Field(
+        None,
+        description="Base64 encoded storybook cover image"
+    )
     error: Optional[str] = Field(None, description="Error message if status is 'error'") 
