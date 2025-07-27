@@ -10,12 +10,15 @@ A FastAPI-based service for generating and managing storybook illustrations usin
 - Error handling and retry logic
 - Secure API endpoints
 - Monitoring and logging
+- Multiple illustration styles (textured-watercolor, bold-and-bright, abstract, whimsical, muted)
 
 ## Project Structure
 
 ```
 .
-├── config/             # Configuration files (prompts, etc.)
+├── config/             # Configuration files (prompts, styles, etc.)
+│   ├── illustration_prompt.txt
+│   └── illustration_styles.txt
 ├── schemas/            # Data models and request/response schemas
 ├── services/           # Business logic (OpenAI, Firebase services)
 ├── scripts/            # Utility scripts (deployment, initialization)
@@ -77,6 +80,49 @@ Once the server is running, visit:
   ```bash
   pytest
   ```
+
+## API Usage
+
+### Illustration Generation Request
+
+The `/generate-illustration` endpoint accepts a POST request with the following structure:
+
+```json
+{
+  "poem_text": "Your poem text here...",
+  "baby": {
+    "name": "Baby Name",
+    "age": "2 years old",
+    "characteristics": "Blue eyes, curly hair",
+    "photo": "base64_encoded_photo"
+  },
+  "parents": {
+    "parent1": {
+      "name": "Parent Name",
+      "relationship": "mother",
+      "photo": "base64_encoded_photo"
+    }
+  },
+  "family_members": [
+    {
+      "name": "Family Member",
+      "relationship": "grandmother",
+      "photo": "base64_encoded_photo"
+    }
+  ],
+  "style": "textured-watercolor"
+}
+```
+
+### Available Styles
+
+The `style` field accepts one of the following values:
+
+- **textured-watercolor**: Soft, natural palette with watercolor washes and gentle gradients
+- **bold-and-bright**: Hyper-saturated complementary colors with thick outlines
+- **abstract**: Mixed organic and geometric forms with layered brush strokes
+- **whimsical**: Rich jewel tones with magical elements and fairy-tale proportions
+- **muted**: Restrained, low-saturation palette with soft watercolor washes
 
 ## Environment Variables
 

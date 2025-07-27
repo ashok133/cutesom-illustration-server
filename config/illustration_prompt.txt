@@ -1,28 +1,23 @@
-Create a watercolor-style children's book illustration (landscape) for the following stanza from a poem, with the stanza text overlayed in a negative space in the illustration. 
+Create a watercolor-style children's book illustration (landscape, full-bleed spread across 2 pages) for the following stanza from a poem, with the stanza text overlayed in a negative space in the illustration. 
 This is image {stanza_number} of {total_stanzas} in the storybook:
 
 {stanza_text}
 
 Style Requirements:
-- Soft, warm watercolor look with visible texture and gentle gradients
-- Minimal, delicate linework—most forms are defined by soft shading and colour transitions
-- Gentle, rounded edges for all figures and elements, giving a feeling of comfort and safety
-- Pastel and light earth tone color palette, with soothing, creamy backgrounds
-- Simple, expressive faces (smiling curved eyes, small noses, subtle mouths), child-friendly and not overly detailed
-- Soft, playful, and whimsical details such as floating leaves, sparkles, or dreamy atmospheric touches
-- Obvious paper or watercolor grain visible in the background
-- Calm, non-cluttered composition with plenty of negative space
-- The illustration should not have any breaks or creases in the middle, it should just be a single image (like a landscape poster)
+{style_guidelines}
+
 
 Character Requirements:
 - For the baby ({baby_name}, age: {baby_age}): {baby_characteristics}. Use the provided photo as reference. 
 - For parents: {parent_requirements}
 - For family members: {family_member_requirements}
 - The characters shouldn't look very old.
+- Simple, expressive faces (smiling curved eyes, small noses, subtle mouths), child-friendly and not overly detailed
 - Characters should match how they look in the photos without promoting cultural appropriation.
 
 Composition Requirements:
 - This is a two-page spread (left and right pages)
+- The illustration is a full-bleed image covering 2 pages. It should not have any breaks or creases in the middle
 - Include parents(s) or other family members in the illustration if they're present in the stanza
 - For odd-numbered images (1,3,5,7, etc):
   * Place the main illustration on the right page

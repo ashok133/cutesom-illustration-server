@@ -1,0 +1,52 @@
+textured-watercolor
+- Palette & texture: Use a soft, natural palette of muted greens, ochres, pale blues, and terracottas with watercolor-style washes, fine grain, and touches of playful realism in color shifts.
+- Shapes & fill: Render broad, flat blocks softened at the edges with gentle gradients or scumbled brushwork, subtly distorting forms for skewed perspective.
+- Outlines & accents: Hint at edges with thin, brushy strokes or faint tonal shifts that curve around shapes, reinforcing a playful, off-kilter realism.
+- Composition & depth / Background motifs: Arrange elements on whimsical diagonals and slightly tilted planes, layer overlapping washes for depth, and scatter faint botanical or abstract icons to support the skewed perspective.
+- Characters: Simplify figures into rounded, stylized silhouettes with minimal facial marks, positioned with exaggerated poses to convey playful realism and perspective shifts.
+- Animals/creatures: Depict wildlife as soft-edged silhouettes with light texture strokes and subtly warped proportions, enhancing both whimsy and skew.
+- Transitions: Soften all junctions with gradient bleeds and feathered brushwork so shapes merge organically, adding to the handcrafted, skewed-perspective feel.
+- Layering: Build the scene in multiple translucent washes—watercolor glazes, subtle textures, and soft highlights—stacked at varying angles to amplify depth and playful distortion.
+
+bold-and-bright
+- Palette & texture: pick a hyper-saturated complementary or triadic scheme; limit to 3–4 hues—2 primaries (cover ~60% area), 1 secondary (~30%), 1 accent (~10%); overlay a light paper-grain.
+- Shapes & fill: render forms in flat, unblended blocks; add just one highlight and one mid-tone per shape.
+- Outlines & accents: wrap primaries in a thick, contrasting stroke; sprinkle simple geometric motifs (circles, crosses, ribbons).
+- Composition & depth: arrange elements off-center or on a diagonal; layer flat “bursts” or ribbons behind focal objects.
+- Background motifs: pepper with sparse abstract icons (dots, stars, crosses) for visual interest.
+- Characters: simplify humans into bold silhouettes—oversized heads, stubby limbs, expressive eyes; limit facial details to one or two key lines.
+- Animals/creatures: apply the same treatment—iconic shapes, exaggerated features, accent-color highlights, clear silhouettes.
+
+abstract
+- Palette & texture: Blend soft and vivid hues (e.g. muted greens, ochres, blush, teal) with layered brush strokes, paper grain, and scribble overlays.
+- Shapes & fill: Mix organic blobs with geometric blocks using flat fills, textured gradients or cross-hatch patterns, with varied hard-cut or feathered edges.
+- Outlines & accents: Use thin, sketchy lines, hatch marks, dashed “stitches,” and irregular dots to highlight forms—no heavy outlines.
+- Composition & depth: Layer overlapping foreground, midground, and background shapes at varied scale and opacity to suggest space.
+- Background motifs: Add sweeping brush marks, sparse abstract icons (circles, arcs, leaves), and subtle grid or stripe patterns behind main forms.
+- Characters: Render humans as abstract silhouettes (oval heads, arced limbs) with minimal facial marks (dot + curve) and a single hue plus highlight.
+- Animals/creatures: Depict as stylized symbols or geometric constructs with playful color swaps and patterned fills (stripes, scribbles).
+- Mixed-media layering: Stack digital “paper” pieces with torn or taped edges and scanned textures (watercolor bleeds, pencil scratches).
+- Dynamic transitions: Employ soft gradients and spot-color fades at overlaps for shapes to bleed/blend and guide the eye.
+- Expressive focal accents: Introduce one high-contrast or metallic detail (gold fleck, vivid red) near the narrative focus to draw attention.
+
+muted
+- Palette & texture: Use a restrained, low-saturation palette of dusty blues, sage greens, warm taupes, and pale mauves. Apply soft watercolor washes and a fine, grainy paper texture.
+- Shapes & fill: Render forms with gentle, feathered edges and subtle tonal gradients. Avoid stark contrasts or hard cuts.
+- Outlines & accents: Employ thin, irregular linework in a slightly darker muted hue. Add sparse pencil-style hatch marks or soft smudges for detail.
+- Composition & depth: Arrange elements in layered planes (foreground, midground, background) with softly fading overlaps to create a sense of calm space.
+- Background motifs: Integrate very light abstract patterns—faded florals, wispy clouds, or gentle swirls—at low opacity to enrich mood without distraction.
+- Characters: Draw humans with rounded, simplified silhouettes and minimal facial features. Fill with a single muted tone plus a whisper of highlight.
+- Animals/creatures: Portray creatures as smooth, organic shapes with minimal detail, using closely analogous muted colors and soft pattern fills.
+- Transitions: Soften all edges with gentle gradient blends or watercolor-style bleeds, avoiding abrupt color shifts.
+- Layering: Build scenes in 3–4 translucent layers, stacking soft textures, wash overlays, and subtle highlights to evoke depth and warmth.
+
+whimsical
+- Palette & texture: Select rich, saturated jewel tones (emerald green, sapphire blue, magenta, sunflower yellow) layered with subtle shimmer speckles and soft painterly brush strokes.
+- Shapes & fill: Use flowing organic forms interwoven with patchwork patterns, blending flat areas and gentle color gradients to evoke a dreamlike softness.
+- Outlines & accents: Accentuate key shapes with delicate, winding linework in light metallic or chalk hues; sprinkle tiny flourish doodles (swirls, curls) for a magical touch.
+- Composition & depth: Arrange elements on swirling diagonals and floating platforms, employing whimsical perspective shifts and overlapping planes to lead the eye on an adventure.
+- Background motifs: Dot the scene with twinkling stars, drifting petals, glowing orbs, and fireflies at varied sizes and opacities to create an enchanted atmosphere.
+- Characters: Render figures with fairy-tale proportions—elongated limbs, oversized expressive eyes, flowing garments—and pose them in dynamic, story-driven motion.
+- Animals/creatures: Depict fantastical beasts (winged foxes, fish-tailed rabbits, miniature dragons) with decorative spot patterns and accent-color highlights, keeping clear silhouettes.
+- Transitions: Blend edges with soft glows, gradient washes, and subtle light blooms around focal points to heighten the sense of wonder.
+- Layering: Build the scene in 3–5 translucent overlays—watercolor-style washes, glitter textures, and luminous highlights—to achieve depth and enchantment.

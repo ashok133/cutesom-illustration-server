@@ -59,6 +59,41 @@ async def get_current_user(user_email: str = Header(..., description="User's ema
         logger.error(f"Error authenticating user in Firestore: {str(e)}")
         raise HTTPException(status_code=401, detail="Authentication failed")
 
+def load_style_guidelines(style_code: str) -> str:
+    """Load style guidelines for the specified style code.
+    
+    Args:
+        style_code: The style code (textured-watercolor, bold-and-bright, abstract, whimsical, muted)
+        
+    Returns:
+        Style guidelines as a string
+    """
+    try:
+        styles_path = os.path.join("config", "illustration_styles.txt")
+        with open(styles_path, "r") as f:
+            content = f.read()
+        
+        # Split content by style sections
+        styles = content.split('\n\n')
+        
+        for style_section in styles:
+            if style_section.strip().startswith(style_code):
+                # Extract the style guidelines (everything after the style code)
+                lines = style_section.strip().split('\n')
+                if len(lines) > 1:
+                    # Remove the style code line and return the guidelines
+                    guidelines = '\n'.join(lines[1:]).strip()
+                    return guidelines
+        
+        # If style not found, return default watercolor style
+        logger.warning(f"Style '{style_code}' not found, using default textured-watercolor style")
+        return load_style_guidelines("textured-watercolor")
+        
+    except Exception as e:
+        logger.error(f"Error loading style guidelines: {str(e)}")
+        # Return a basic fallback style
+        return "- Soft, warm watercolor look with visible texture and gentle gradients\n- Minimal, delicate linework—most forms are defined by soft shading and colour transitions\n- Gentle, rounded edges for all figures and elements, giving a feeling of comfort and safety"
+
 def load_prompt_template() -> str:
     """Load the prompt template from file."""
     try:
@@ -182,8 +217,12 @@ async def generate_illustration_for_stanza(
         reference_images.extend(relevant_parent_photos)
         reference_images.extend(relevant_family_photos)
         
-        # Load and format the prompt template
+        # Load style guidelines and prompt template
+        style_guidelines = load_style_guidelines(request.style)
         prompt_template = load_prompt_template()
+        
+        logger.info(f"Using style '{request.style}' for stanza {stanza_number}")
+        
         prompt = prompt_template.format(
             baby_name=baby_name,
             baby_age=baby_age,
@@ -192,7 +231,8 @@ async def generate_illustration_for_stanza(
             total_stanzas=total_stanzas,
             stanza_text=stanza,
             parent_requirements=parent_requirements,
-            family_member_requirements=family_member_requirements
+            family_member_requirements=family_member_requirements,
+            style_guidelines=style_guidelines
         )
         
         logger.info(f"Generated prompt for stanza {stanza_number}: {prompt}")

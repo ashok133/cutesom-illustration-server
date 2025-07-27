@@ -31,6 +31,7 @@ class IllustrationRequest(BaseModel):
     baby: Baby = Field(..., description="Information about the baby")
     parents: Optional[Parents] = Field(None, description="Information about the parents")
     family_members: Optional[List[FamilyMember]] = Field(None, description="List of family members to include")
+    style: str = Field(..., description="Illustration style: textured-watercolor, bold-and-bright, abstract, whimsical, or muted")
 
 class IllustrationResponse(BaseModel):
     """Model for illustration generation response."""
