@@ -13,6 +13,9 @@ IMAGE_NAME="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${SERVICE_NAME}
 # FIREBASE_STORAGE_BUCKET="gs://cutesom-5eea4.firebasestorage.app"
 FIREBASE_STORAGE_BUCKET="cutesom-storybooks"
 
+# Setup credentials
+gcloud auth configure-docker us-central1-docker.pkg.dev
+
 # Build the Docker image
 echo "Building Docker image..."
 docker build --platform=linux/amd64 -t ${IMAGE_NAME} .
@@ -40,4 +43,4 @@ gcloud run deploy ${SERVICE_NAME} \
   --set-secrets="OPENAI_API_KEY=openai-api-key:latest"
 
 echo "✅ Deployment complete!"
-echo "🌐 Service URL: $(gcloud run services describe ${SERVICE_NAME} --project ${PROJECT_ID} --platform managed --region ${REGION} --format 'value(status.url)')" 
+echo "🌐 Service URL: $(gcloud run services describe ${SERVICE_NAME} --project ${PROJECT_ID} --platform managed --region ${REGION} --format 'value(status.url)')"
