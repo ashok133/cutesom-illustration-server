@@ -24,6 +24,7 @@ docker push ${IMAGE_NAME}
 # Deploy to Cloud Run
 echo "🚀 Deploying to Cloud Run..."
 gcloud run deploy ${SERVICE_NAME} \
+  --project ${PROJECT_ID} \
   --image ${IMAGE_NAME} \
   --platform managed \
   --region ${REGION} \
@@ -39,4 +40,4 @@ gcloud run deploy ${SERVICE_NAME} \
   --set-secrets="OPENAI_API_KEY=openai-api-key:latest"
 
 echo "✅ Deployment complete!"
-echo "🌐 Service URL: $(gcloud run services describe ${SERVICE_NAME} --platform managed --region ${REGION} --format 'value(status.url)')" 
+echo "🌐 Service URL: $(gcloud run services describe ${SERVICE_NAME} --project ${PROJECT_ID} --platform managed --region ${REGION} --format 'value(status.url)')" 

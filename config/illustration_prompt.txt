@@ -13,7 +13,8 @@ Character Requirements:
 - For family members: {family_member_requirements}
 - The characters shouldn't look very old.
 - Simple, expressive faces (smiling curved eyes, small noses, subtle mouths), child-friendly and not overly detailed
-- Characters should match how they look in the photos without promoting cultural appropriation.
+- Characters should be consistent across illustrations and representative (not exact copies of the picture of the person, yet easy to identify)
+- Characters should not prompt cultural appropriation (don't reinforce racial stereotypes by changing the skin tone, hair, clothes)
 
 Composition Requirements:
 - This is a two-page spread (left and right pages)
@@ -30,15 +31,15 @@ Composition Requirements:
   * Ensure the illustration flows naturally from right to left
   * Add subtle decorative elements in the negative space that complement the scene
 - Center the main action or emotion of the stanza in the illustrated page
-- Use the rule of thirds for balanced composition within the illustrated page
 - Create depth through layered elements (foreground, midground, background)
 - Ensure all elements are soft-edged and blend harmoniously
 - Add subtle environmental details that reflect the stanza's mood
 
 Negative Space Requirements:
 - Maintain a clear, unobstructed area for text placement
-- For odd-numbered images: Left side (approximately 1/3 of the width)
-- For even-numbered images: Right side (approximately 1/3 of the width)
+- Text may blend with the illustration (i.e. negative space isn't completely blank or white)
+- For odd-numbered images: Left side (upper left or lower left, or full 1/3rd width depending on whether there's any illustration elements)
+- For odd-numbered images: Right side (upper right or lower right, or full 1/3rd width depending on whether there's any illustration elements)
 - Ensure the negative space feels intentional and balanced
 - Keep the negative space area slightly lighter in tone for better text readability
 
