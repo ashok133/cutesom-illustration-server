@@ -453,7 +453,7 @@ class FirebaseService:
             
         except Exception as e:
             logger.error(f"Error adding illustration: {str(e)}")
-                        raise
+            raise
 
     async def add_cover_to_storybook(
         self,
