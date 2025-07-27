@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 SERVICE_URL = "https://cutesom-illustration-server-241564477458.us-central1.run.app"
 TEST_IMAGES_DIR = Path(__file__).parent / "test_images"
 OUTPUT_DIR = Path(__file__).parent / "output"
-TEST_USER_EMAIL = "ashok-test@example.com"  # Test user email
+TEST_USER_EMAIL = "test-user@example.com"  # Test user email
 
 def ensure_directories():
     """Ensure test and output directories exist."""
@@ -74,7 +74,8 @@ Making everything just right.
                 "relationship": "Maternal grandmother",
                 "photo": placeholder_photo
             }
-        ]
+        ],
+        "style": "textured-watercolor"
     }
     return request
 

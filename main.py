@@ -34,7 +34,7 @@ app.add_middleware(
     expose_headers=["*"]
 )
 
-async def get_current_user(user_email: str = Header(..., description="User's email address")):
+async def get_current_user(user_email: str = Header(..., alias="user-email", description="User's email address")):
     """Get or create user from Firestore.
     
     Args:
@@ -44,6 +44,14 @@ async def get_current_user(user_email: str = Header(..., description="User's ema
         User ID
     """
     try:
+        # Log the received email for debugging
+        logger.info(f"Received user email from header: '{user_email}'")
+        
+        # Validate email format
+        if not user_email or user_email == "anonymous@example.com":
+            logger.warning(f"Invalid or anonymous email received: '{user_email}'")
+            raise HTTPException(status_code=400, detail="Valid user email is required")
+        
         # Create user data from email
         user_data = {
             'uid': user_email,
