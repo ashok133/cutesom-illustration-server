@@ -8,7 +8,7 @@ from datetime import datetime
 # Add the project root directory to Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app.services.firebase_service import firebase_service
+from services.firebase_service import firebase_service
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

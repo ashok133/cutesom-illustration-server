@@ -6,9 +6,9 @@ from typing import List, Dict, Set
 from fastapi import FastAPI, HTTPException, Header, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.services.openai_service import openai_service
-from app.services.firebase_service import firebase_service
-from app.schemas.models import IllustrationRequest, IllustrationResponse
+from services.openai_service import openai_service
+from services.firebase_service import firebase_service
+from schemas.models import IllustrationRequest, IllustrationResponse
 
 # Configure logging
 logging.basicConfig(
@@ -62,7 +62,7 @@ async def get_current_user(user_email: str = Header(..., description="User's ema
 def load_prompt_template() -> str:
     """Load the prompt template from file."""
     try:
-        prompt_path = os.path.join("app", "api", "v1", "config", "illustration_prompt.txt")
+        prompt_path = os.path.join("config", "illustration_prompt.txt")
         with open(prompt_path, "r") as f:
             return f.read()
     except Exception as e:

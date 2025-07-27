@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from app.services.firebase_service import firebase_service
+from services.firebase_service import firebase_service
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

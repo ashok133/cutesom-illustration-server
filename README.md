@@ -15,17 +15,14 @@ A FastAPI-based service for generating and managing storybook illustrations usin
 
 ```
 .
-├── app/
-│   ├── api/
-│   │   └── v1/         # API endpoints
-│   ├── core/           # Core functionality
-│   ├── models/         # Data models
-│   ├── services/       # Business logic
-│   └── utils/          # Utility functions
+├── config/             # Configuration files (prompts, etc.)
+├── schemas/            # Data models and request/response schemas
+├── services/           # Business logic (OpenAI, Firebase services)
+├── scripts/            # Utility scripts (deployment, initialization)
 ├── tests/              # Test files
-├── config.py           # Configuration settings
 ├── main.py            # Application entry point
-└── requirements.txt    # Project dependencies
+├── requirements.txt    # Project dependencies
+└── Dockerfile         # Container configuration
 ```
 
 ## Setup
@@ -51,7 +48,11 @@ A FastAPI-based service for generating and managing storybook illustrations usin
 
 4. Run the server:
    ```bash
-   python main.py
+   # For local development
+   ./scripts/run_local.sh
+   
+   # Or directly with uvicorn
+   uvicorn main:app --host 0.0.0.0 --port 8000 --reload
    ```
 
 ## API Documentation
