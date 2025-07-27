@@ -4,13 +4,15 @@ This is image {stanza_number} of {total_stanzas} in the storybook:
 {stanza_text}
 
 Style Requirements:
-- Watercolor technique with soft, warm color palette (creams, pastels, gentle earth tones)
-- Hand-drawn, storybook aesthetic with visible brush strokes and texture
+- Soft, warm watercolor look with visible texture and gentle gradients
+- Minimal, delicate linework—most forms are defined by soft shading and colour transitions
+- Gentle, rounded edges for all figures and elements, giving a feeling of comfort and safety
+- Pastel and light earth tone color palette, with soothing, creamy backgrounds
+- Simple, expressive faces (smiling curved eyes, small noses, subtle mouths), child-friendly and not overly detailed
+- Soft, playful, and whimsical details such as floating leaves, sparkles, or dreamy atmospheric touches
+- Obvious paper or watercolor grain visible in the background
+- Calm, non-cluttered composition with plenty of negative space
 - The illustration should not have any breaks or creases in the middle, it should just be a single image (like a landscape poster)
-- Soft, diffused lighting that creates a dreamy atmosphere, focussing on different light soft color hues for each stanza (blue, yellow, pink)
-- Gentle, rounded edges and organic shapes
-- Subtle paper texture visible in the background
-- Whimsical details like floating leaves, sparkles, or soft shadows to add depth
 
 Character Requirements:
 - For the baby ({baby_name}, age: {baby_age}): {baby_characteristics}. Use the provided photo as reference. 
@@ -42,7 +44,6 @@ Negative Space Requirements:
 - Maintain a clear, unobstructed area for text placement
 - For odd-numbered images: Left side (approximately 1/3 of the width)
 - For even-numbered images: Right side (approximately 1/3 of the width)
-- Add subtle, non-distracting decorative elements in the negative space
 - Ensure the negative space feels intentional and balanced
 - Keep the negative space area slightly lighter in tone for better text readability
 
@@ -57,6 +58,5 @@ Text Requirements:
 Additional Notes:
 - Maintain consistent style across all illustrations
 - Ensure all text elements will be legible when overlaid
-- Keep the style child-friendly and emotionally warm
 - Ensure the illustration feels like a natural part of a storybook sequence
 - Consider the flow of the story across pages (left-to-right for odd pages, right-to-left for even pages) 
