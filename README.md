@@ -12,6 +12,8 @@ A FastAPI-based service for generating and managing storybook illustrations usin
 - Secure API endpoints
 - Monitoring and logging
 - Multiple illustration styles (textured-watercolor, bold-and-bright, abstract, whimsical, muted)
+- Multi-model support (OpenAI DALL-E 3, Google Gemini 3 Nano Banana Pro)
+- Modular image generation architecture
 
 ## Project Structure
 
@@ -22,7 +24,13 @@ A FastAPI-based service for generating and managing storybook illustrations usin
 │   ├── storybook_cover_prompt.txt
 │   └── illustration_styles.txt
 ├── schemas/            # Data models and request/response schemas
-├── services/           # Business logic (OpenAI, Firebase services)
+├── services/           # Business logic
+│   ├── image_generator/    # Modular image generation services
+│   │   ├── base.py
+│   │   ├── factory.py
+│   │   ├── openai_generator.py
+│   │   └── gemini_generator.py
+│   └── firebase_service.py # Firebase operations
 ├── scripts/            # Utility scripts (deployment, initialization)
 ├── tests/              # Test files
 ├── main.py            # Application entry point
@@ -111,9 +119,17 @@ The `/generate-illustration` endpoint accepts a POST request with the following 
       "relationship": "grandmother",
       "photo": "base64_encoded_photo"
     }
-  ],
-          "style": "textured-watercolor"
+      "photo": "base64_encoded_photo"
     }
+  ],
+  "style": "textured-watercolor",
+  "image_model": "nano-banana"
+}
+
+The `image_model` field is optional and defaults to `gpt-image`.
+Available values:
+- `gpt-image`: OpenAI DALL-E 3
+- `nano-banana`: Google Gemini 3 Nano Banana Pro (`gemini-3-pro-preview-image`)
     
     Response includes:
     - `image_data`: Dictionary of stanza illustrations
@@ -132,7 +148,9 @@ The `style` field accepts one of the following values:
 
 ## Environment Variables
 
-- `OPENAI_API_KEY`: Your OpenAI API key
+- `OPENAI_API_KEY`: Your OpenAI API key (for `gpt-image` model)
+- `GEMINI_API_KEY`: Your Google GenAI API key (for `nano-banana` model)
+- `GEMINI_MODEL_ID`: Optional override for Gemini model (default: `gemini-3-pro-preview-image`)
 - `FIREBASE_CREDENTIALS`: Firebase service account credentials
 - `FIREBASE_STORAGE_BUCKET`: Firebase storage bucket name
 - `MAX_CONCURRENT_JOBS`: Maximum number of concurrent generation jobs
