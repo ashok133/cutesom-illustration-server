@@ -32,6 +32,7 @@ class IllustrationRequest(BaseModel):
     parents: Optional[Parents] = Field(None, description="Information about the parents")
     family_members: Optional[List[FamilyMember]] = Field(None, description="List of family members to include")
     style: str = Field(..., description="Illustration style: textured-watercolor, bold-and-bright, abstract, whimsical, or muted")
+    image_model: str = Field("gpt-image", description="Model to use: 'nano-banana' or 'gpt-image'")
 
 class IllustrationResponse(BaseModel):
     """Model for illustration generation response."""

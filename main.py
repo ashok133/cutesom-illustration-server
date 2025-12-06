@@ -6,9 +6,17 @@ from typing import List, Dict, Set
 from fastapi import FastAPI, HTTPException, Header, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from services.openai_service import openai_service
+from services.image_generator import get_image_generator
 from services.firebase_service import firebase_service
 from schemas.models import IllustrationRequest, IllustrationResponse
+
+# ... (logging and app initialization remain)
+
+# Initialize Image Generator
+# We do this lazily or here? Let's do it in the function or global?
+# The original code used a singleton instance `openai_service`. 
+# We should probably instantiate it.
+# REMOVED global instantiation in favor of per-request factory call.
 
 # Configure logging
 logging.basicConfig(
@@ -257,7 +265,8 @@ async def generate_illustration_for_stanza(
         logger.info(f"Using {len(reference_images)} reference images for stanza {stanza_number}")
         
         # Generate the illustration
-        image_data = await openai_service.generate_illustration(
+        image_generator = get_image_generator(request.image_model)
+        image_data = await image_generator.generate_illustration(
             prompt=prompt,
             reference_images=reference_images
         )
@@ -315,7 +324,10 @@ async def generate_storybook_cover(
         logger.info(f"Using {len(reference_images)} reference images for cover")
         
         # Generate the cover with portrait orientation
-        cover_data = await openai_service.generate_illustration(
+        # Note: 'size' param might need adjustment depending on provider capabilities,
+        # but the interface accepts it.
+        image_generator = get_image_generator(request.image_model)
+        cover_data = await image_generator.generate_illustration(
             prompt=cover_prompt,
             reference_images=reference_images,
             size="1024x1536"  # Portrait orientation for cover
@@ -357,6 +369,15 @@ async def generate_illustration(
         stanzas = split_poem_into_stanzas(request.poem_text)
         total_stanzas = len(stanzas)
         logger.info(f"Processing {total_stanzas} stanzas in parallel")
+
+        # Get the appropriate image generator for this request
+        # Note: We need to pass the generator or its type to the helper function, 
+        # OR the helper function needs to instantiate it. 
+        # Since `generate_illustration_for_stanza` is async and called in parallel,
+        # we can just pass the initialized generator if it's thread-safe (clients usually are),
+        # OR pass the request model and let `generate_illustration_for_stanza` calling factory.
+        # However, `generate_illustration_for_stanza` signature currently takes `request`.
+        # So we can instantiate it inside `generate_illustration_for_stanza`.
         
         # Create tasks for parallel processing
         tasks = []
