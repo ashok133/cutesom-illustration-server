@@ -15,7 +15,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Service configuration
-SERVICE_URL = "https://cutesom-illustration-server-241564477458.us-central1.run.app"
+# SERVICE_URL = "https://cutesom-illustration-server-241564477458.us-central1.run.app"
+SERVICE_URL = os.getenv("SERVICE_URL", "http://localhost:8000")
 TEST_IMAGES_DIR = Path(__file__).parent / "test_images"
 OUTPUT_DIR = Path(__file__).parent / "output"
 TEST_USER_EMAIL = "test-user@example.com"  # Test user email

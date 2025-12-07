@@ -32,32 +32,20 @@ class FirebaseService:
             try:
                 # Initialize Firebase Admin SDK
                 if not firebase_admin._apps:
-                    # Check if running in Cloud Run
-                    if os.getenv('K_SERVICE'):  # Cloud Run sets this environment variable
-                        logger.info("Initializing Firebase in Cloud Run environment")
-                        # Use default credentials in Cloud Run
+                    # Use Application Default Credentials (ADC) for both Cloud Run and Local
+                    # local: looks for GOOGLE_APPLICATION_CREDENTIALS
+                    # cloud: looks for metadata server
+                    logger.info("Initializing Firebase with Application Default Credentials")
+                    
+                    try:
                         cred = credentials.ApplicationDefault()
                         firebase_admin.initialize_app(cred, {
                             'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET')
                         })
-                    else:
-                        # Local development - use service account key
-                        logger.info("Initializing Firebase in local development environment")
-                        cred_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
-                        if not cred_path:
-                            raise ValueError(
-                                "GOOGLE_APPLICATION_CREDENTIALS environment variable is not set. "
-                                "Please set it to the path of your Firebase service account JSON file."
-                            )
-                        if not os.path.exists(cred_path):
-                            raise ValueError(
-                                f"Firebase service account file not found at: {cred_path}. "
-                                "Please check if the path is correct."
-                            )
-                        cred = credentials.Certificate(cred_path)
-                        firebase_admin.initialize_app(cred, {
-                            'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET')
-                        })
+                    except Exception as e:
+                        logger.error(f"Failed to initialize Firebase credentials: {e}")
+                        logger.error("Ensure GOOGLE_APPLICATION_CREDENTIALS is set locally or you are in a valid Cloud environment.")
+                        raise
                 
                 # Initialize Firestore client
                 self.db: Client = FirestoreClient(
@@ -85,9 +73,17 @@ class FirebaseService:
             bytes: Processed image data
         """
         try:
-            # Remove data URI prefix if present
-            if image_data.startswith('data:image/jpeg;base64,'):
-                image_data = image_data.replace('data:image/jpeg;base64,', '')
+            # Clean up the base64 string
+            if ',' in image_data:
+                image_data = image_data.split(',', 1)[1]
+            
+            # Remove any whitespace
+            image_data = image_data.strip().replace('\n', '').replace('\r', '').replace(' ', '')
+            
+            # Add padding if needed
+            missing_padding = len(image_data) % 4
+            if missing_padding:
+                image_data += '=' * (4 - missing_padding)
             
             # Decode base64 to bytes
             image_bytes = base64.b64decode(image_data)
@@ -110,10 +106,11 @@ class FirebaseService:
             # Save to bytes with compression
             output = io.BytesIO()
             img.save(output, format='JPEG', quality=quality, optimize=True)
-            output.seek(0)
+            result = output.getvalue()
+            logger.info(f"Preprocessed image size: {len(result)} bytes")
             
             logger.info(f"Preprocessed image: {img.size} -> {new_size}, quality: {quality}")
-            return output.read()
+            return result
             
         except Exception as e:
             logger.error(f"Error preprocessing image: {str(e)}")
@@ -225,26 +222,32 @@ class FirebaseService:
                     image_data=request_data['baby']['photo']
                 )
             
-            if 'parents' in request_data:
-                if 'parent1' in request_data['parents'] and 'photo' in request_data['parents']['parent1']:
-                    request_data['parents']['parent1']['photo'] = await self.store_request_image(
+            # Process parents
+            parents = request_data.get('parents')
+            if parents:
+                parent1 = parents.get('parent1')
+                if parent1 and parent1.get('photo'):
+                    parent1['photo'] = await self.store_request_image(
                         user_id=user_id,
                         storybook_id=storybook_id,
                         image_type='parent1',
-                        image_data=request_data['parents']['parent1']['photo']
+                        image_data=parent1['photo']
                     )
                 
-                if 'parent2' in request_data['parents'] and 'photo' in request_data['parents']['parent2']:
-                    request_data['parents']['parent2']['photo'] = await self.store_request_image(
+                parent2 = parents.get('parent2')
+                if parent2 and parent2.get('photo'):
+                    parent2['photo'] = await self.store_request_image(
                         user_id=user_id,
                         storybook_id=storybook_id,
                         image_type='parent2',
-                        image_data=request_data['parents']['parent2']['photo']
+                        image_data=parent2['photo']
                     )
             
-            if 'family_members' in request_data:
-                for i, member in enumerate(request_data['family_members']):
-                    if 'photo' in member:
+            # Process family members
+            family_members = request_data.get('family_members')
+            if family_members:
+                for i, member in enumerate(family_members):
+                    if member.get('photo'):
                         member['photo'] = await self.store_request_image(
                             user_id=user_id,
                             storybook_id=storybook_id,

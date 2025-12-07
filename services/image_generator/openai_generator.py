@@ -68,7 +68,10 @@ class OpenAIGenerator(ImageGenerator):
             
             for output in response.output:
                 if hasattr(output, 'result') and output.result:
-                    return output.result
+                    res = output.result
+                    if isinstance(res, str):
+                        logger.info(f"OpenAI generated image size: {len(res)} chars")
+                    return res
                     
             logger.error("No image data found in OpenAI response")
             return None

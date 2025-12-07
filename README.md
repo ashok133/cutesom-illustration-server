@@ -53,10 +53,14 @@ A FastAPI-based service for generating and managing storybook illustrations usin
 
 3. Set up environment variables:
    Create a `.env` file in the root directory with the following variables:
-   ```
-   OPENAI_API_KEY=your_openai_api_key
-   FIREBASE_CREDENTIALS=your_firebase_credentials
-   FIREBASE_STORAGE_BUCKET=your_bucket_name
+ - **API Keys**:
+  - `OPENAI_API_KEY`: Required for poem generation and OpenAI image generation.
+  - `GEMINI_API_KEY`: Required for Gemini (Imagen 3) image generation.
+- **Image Generation Config**:
+  - `GEMINI_MODEL_ID`: (Optional) Helper to override the Gemini model (default: `gemini-3-pro-image-preview`).
+- **Google Cloud**:
+  - `GOOGLE_APPLICATION_CREDENTIALS`: Path to your service account key file (for local dev).
+  - `FIREBASE_STORAGE_BUCKET`: The GCS bucket name (e.g., `cutesom-storybooks`).
    ```
 
 4. Run the server:

@@ -206,3 +206,7 @@ yarn.lock
 *.so
 *.dylib
 *.dll 
+
+# Test artifacts
+tests/output/
+types_dir.txt

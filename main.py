@@ -330,7 +330,6 @@ async def generate_storybook_cover(
         cover_data = await image_generator.generate_illustration(
             prompt=cover_prompt,
             reference_images=reference_images,
-            size="1024x1536"  # Portrait orientation for cover
         )
         
         if not cover_data:

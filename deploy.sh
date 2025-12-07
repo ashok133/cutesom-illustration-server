@@ -40,7 +40,8 @@ gcloud run deploy ${SERVICE_NAME} \
   --set-env-vars="PROJECT_ID=${PROJECT_ID}" \
   --service-account ${SERVICE_ACCOUNT} \
   --set-env-vars="FIREBASE_STORAGE_BUCKET=${FIREBASE_STORAGE_BUCKET}" \
-  --set-secrets="OPENAI_API_KEY=openai-api-key:latest"
+  --set-secrets="OPENAI_API_KEY=openai-api-key:latest" \
+  --set-secrets="GEMINI_API_KEY=gemini-api-key:latest"
 
 echo "✅ Deployment complete!"
 echo "🌐 Service URL: $(gcloud run services describe ${SERVICE_NAME} --project ${PROJECT_ID} --platform managed --region ${REGION} --format 'value(status.url)')"
