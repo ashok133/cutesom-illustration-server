@@ -1,11 +1,12 @@
 """Pydantic models for request and response schemas."""
 from typing import List, Optional, Dict
+from datetime import datetime
 from pydantic import BaseModel, Field
 
 class Person(BaseModel):
     """Base model for a person with photo."""
     name: str = Field(..., description="Name of the person")
-    photo: str = Field(..., description="Base64 encoded photo of the person")
+    photo: str = Field(..., description="Base64 encoded photo of the person or URL")
 
 class Baby(Person):
     """Model for baby information."""
@@ -46,4 +47,25 @@ class IllustrationResponse(BaseModel):
         None,
         description="Base64 encoded storybook cover image"
     )
-    error: Optional[str] = Field(None, description="Error message if status is 'error'") 
+    error: Optional[str] = Field(None, description="Error message if status is 'error'")
+
+class StorybookIllustration(BaseModel):
+    """Model for a generated illustration in a storybook."""
+    stanzaNumber: int
+    imageUrl: str
+    prompt: str
+    createdAt: datetime
+
+class StorybookSummary(BaseModel):
+    """Summary model for a storybook."""
+    id: str
+    userId: str
+    createdAt: datetime
+    status: str
+    coverUrl: Optional[str] = None
+
+class StorybookDetail(StorybookSummary):
+    """Detailed model for a storybook including request and illustrations."""
+    request: IllustrationRequest
+    illustrations: List[StorybookIllustration]
+    error: Optional[str] = None

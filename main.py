@@ -8,9 +8,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from services.image_generator import get_image_generator
 from services.firebase_service import firebase_service
-from schemas.models import IllustrationRequest, IllustrationResponse
-
-# ... (logging and app initialization remain)
+from schemas.models import (
+    IllustrationRequest,
+    IllustrationResponse,
+    StorybookSummary,
+    StorybookDetail
+)
 
 # Initialize Image Generator
 # We do this lazily or here? Let's do it in the function or global?
@@ -437,16 +440,17 @@ async def generate_illustration(
             
             if cover_image:
                 # Upload cover to storage
-                cover_url = await firebase_service.upload_cover_to_storage(
+                # Note: This now returns the storage path, not the public URL
+                cover_path = await firebase_service.upload_cover_to_storage(
                     user_id=user_id,
                     storybook_id=storybook_id,
                     cover_data=cover_image
                 )
                 
-                # Add cover URL to storybook
+                # Add cover URL (path) to storybook
                 await firebase_service.add_cover_to_storybook(
                     storybook_id=storybook_id,
-                    cover_url=cover_url
+                    cover_url=cover_path
                 )
                 
                 logger.info("Successfully generated and uploaded storybook cover")
@@ -495,6 +499,51 @@ async def generate_illustration(
             message="Failed to generate illustrations",
             error=str(e)
         )
+
+@app.get("/my-creations", response_model=List[StorybookSummary])
+async def get_my_creations(
+    user_id: str = Depends(get_current_user)
+) -> List[StorybookSummary]:
+    """Get all storybooks created by the current user.
+
+    Args:
+        user_id: The ID of the authenticated user
+
+    Returns:
+        List of storybook summaries
+    """
+    try:
+        storybooks = await firebase_service.get_user_storybooks(user_id)
+        logger.info(f"Retrieved {len(storybooks)} storybooks for user {user_id}")
+        return storybooks
+    except Exception as e:
+        logger.error(f"Error retrieving storybooks: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to retrieve storybooks")
+
+@app.get("/storybooks/{storybook_id}", response_model=StorybookDetail)
+async def get_storybook_detail(
+    storybook_id: str,
+    user_id: str = Depends(get_current_user)
+) -> StorybookDetail:
+    """Get detailed information for a specific storybook.
+
+    Args:
+        storybook_id: The ID of the storybook
+        user_id: The ID of the authenticated user
+
+    Returns:
+        Detailed storybook information including signed URLs
+    """
+    try:
+        storybook = await firebase_service.get_storybook_details(storybook_id, user_id)
+        logger.info(f"Retrieved storybook {storybook_id} for user {user_id}")
+        return storybook
+    except ValueError as e:
+        logger.warning(f"Validation error retrieving storybook {storybook_id}: {str(e)}")
+        raise HTTPException(status_code=403, detail=str(e))
+    except Exception as e:
+        logger.error(f"Error retrieving storybook details: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to retrieve storybook details")
 
 @app.get("/health")
 async def health_check():
