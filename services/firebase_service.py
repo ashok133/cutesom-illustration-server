@@ -2,7 +2,7 @@
 import os
 import logging
 from typing import Dict, Any, Optional, List
-from datetime import datetime
+from datetime import datetime, timedelta
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
 from google.cloud.firestore import Client
@@ -61,6 +61,35 @@ class FirebaseService:
                 logger.error(f"Error initializing Firebase service: {str(e)}")
                 raise
     
+    def generate_signed_url(self, blob_path: str, expiration_minutes: int = 60) -> Optional[str]:
+        """Generate a signed URL for a storage blob.
+
+        Args:
+            blob_path: Path to the blob in storage
+            expiration_minutes: URL expiration time in minutes
+
+        Returns:
+            str: Signed URL or None if blob_path is invalid/empty
+        """
+        if not blob_path:
+            return None
+
+        try:
+            # Check if it's already a public URL (legacy support)
+            if blob_path.startswith('http'):
+                return blob_path
+
+            blob = self.bucket.blob(blob_path)
+            url = blob.generate_signed_url(
+                version="v4",
+                expiration=timedelta(minutes=expiration_minutes),
+                method="GET"
+            )
+            return url
+        except Exception as e:
+            logger.error(f"Error generating signed URL for {blob_path}: {str(e)}")
+            return None
+
     def _preprocess_image(self, image_data: str, max_size: int = 1024, quality: int = 85) -> bytes:
         """Preprocess image to reduce size while maintaining quality.
         
@@ -161,7 +190,7 @@ class FirebaseService:
             image_data: Base64 encoded image data with data URI prefix
             
         Returns:
-            str: The public URL of the stored image
+            str: The storage path of the stored image
         """
         try:
             # Preprocess image
@@ -178,14 +207,10 @@ class FirebaseService:
                 content_type='image/jpeg'
             )
             
-            # Make the blob publicly accessible
-            blob.make_public()
+            # Return the storage path instead of public URL
+            logger.info(f"Stored request image {image_type} to {storage_path}")
             
-            # Get the public URL
-            public_url = blob.public_url
-            logger.info(f"Stored request image {image_type} to {public_url}")
-            
-            return public_url
+            return storage_path
             
         except Exception as e:
             logger.error(f"Error storing request image: {str(e)}")
@@ -314,13 +339,7 @@ class FirebaseService:
             image_data: Base64 encoded image data with data URI prefix
             
         Returns:
-            str: The public URL of the uploaded image
-            
-        TODO: Migrate to uniform bucket-level access and use Firebase Auth:
-        1. Enable uniform bucket-level access
-        2. Update storage rules to use Firebase Auth
-        3. Store storage paths instead of URLs in Firestore
-        4. Use Firebase Storage SDK on frontend to get authenticated URLs
+            str: The storage path of the uploaded image
         """
         try:
             # Remove data URI prefix if present
@@ -341,14 +360,10 @@ class FirebaseService:
                 content_type='image/jpeg'
             )
             
-            # Make the blob publicly accessible
-            blob.make_public()
+            # Return the storage path
+            logger.info(f"Uploaded image to {storage_path}")
             
-            # Get the public URL
-            public_url = blob.public_url
-            logger.info(f"Uploaded image to {public_url}")
-            
-            return public_url
+            return storage_path
             
         except Exception as e:
             logger.error(f"Error uploading image to storage: {str(e)}")
@@ -368,7 +383,7 @@ class FirebaseService:
             cover_data: Base64 encoded image data with data URI prefix
             
         Returns:
-            str: The public URL of the uploaded cover
+            str: The storage path of the uploaded cover
         """
         try:
             # Remove data URI prefix if present
@@ -389,14 +404,10 @@ class FirebaseService:
                 content_type='image/jpeg'
             )
             
-            # Make the blob publicly accessible
-            blob.make_public()
+            # Return the storage path
+            logger.info(f"Uploaded cover to {storage_path}")
             
-            # Get the public URL
-            public_url = blob.public_url
-            logger.info(f"Uploaded cover to {public_url}")
-            
-            return public_url
+            return storage_path
             
         except Exception as e:
             logger.error(f"Error uploading cover to storage: {str(e)}")
@@ -498,18 +509,79 @@ class FirebaseService:
         except Exception as e:
             logger.error(f"Error getting storybook: {str(e)}")
             raise
+
+    async def get_storybook_details(self, storybook_id: str, user_id: str) -> Dict[str, Any]:
+        """Get detailed storybook information with signed URLs.
+
+        Args:
+            storybook_id: The storybook ID
+            user_id: The user ID (for verification)
+
+        Returns:
+            Dict containing storybook details with signed URLs
+        """
+        try:
+            data = await self.get_storybook(storybook_id)
+
+            # Verify user ownership
+            if data.get('userId') != user_id:
+                raise ValueError("Unauthorized access to storybook")
+
+            # Generate signed URL for cover
+            if data.get('coverUrl'):
+                data['coverUrl'] = self.generate_signed_url(data['coverUrl'])
+
+            # Generate signed URLs for illustrations
+            if data.get('illustrations'):
+                for illustration in data['illustrations']:
+                    if illustration.get('imageUrl'):
+                        illustration['imageUrl'] = self.generate_signed_url(illustration['imageUrl'])
+
+            # Generate signed URLs for request images (baby photo, parents, etc.)
+            request = data.get('request', {})
+
+            if request.get('baby', {}).get('photo'):
+                request['baby']['photo'] = self.generate_signed_url(request['baby']['photo'])
+
+            if request.get('parents'):
+                if request['parents'].get('parent1', {}).get('photo'):
+                    request['parents']['parent1']['photo'] = self.generate_signed_url(request['parents']['parent1']['photo'])
+                if request['parents'].get('parent2', {}).get('photo'):
+                    request['parents']['parent2']['photo'] = self.generate_signed_url(request['parents']['parent2']['photo'])
+
+            if request.get('family_members'):
+                for member in request['family_members']:
+                    if member.get('photo'):
+                        member['photo'] = self.generate_signed_url(member['photo'])
+
+            return data
+
+        except Exception as e:
+            logger.error(f"Error getting storybook details: {str(e)}")
+            raise
     
     async def get_user_storybooks(self, user_id: str) -> List[Dict[str, Any]]:
         """Get all storybooks for a user."""
         try:
-            # Get all storybooks and filter in memory
+            # Query Firestore filtering by userId
             storybooks_ref = self.db.collection('storybooks')
-            storybooks = []
+            query = storybooks_ref.where('userId', '==', user_id).order_by('createdAt', direction=firestore.Query.DESCENDING)
             
-            for doc in storybooks_ref.stream():
+            storybooks = []
+            for doc in query.stream():
                 data = doc.to_dict()
-                if data.get('userId') == user_id:
-                    storybooks.append(data)
+
+                # Ensure ID is included
+                if 'id' not in data:
+                    data['id'] = doc.id
+
+                # Generate signed URL for cover if it exists
+                if data.get('coverUrl'):
+                    data['coverUrl'] = self.generate_signed_url(data['coverUrl'])
+
+                # We don't need to generate signed URLs for illustrations here as this is a summary
+
+                storybooks.append(data)
             
             return storybooks
             
